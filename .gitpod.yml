@@ -1,0 +1,16 @@
+image: gitpod/workspace-full
+
+tasks:
+  - init: |
+      # Install Java and Gradle
+      sdk install java 17.0.6-tem
+      sdk install gradle
+      # Set up Android SDK
+      mkdir -p $ANDROID_HOME/cmdline-tools/latest
+      wget -q https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O cmdline-tools.zip
+      unzip -q cmdline-tools.zip -d $ANDROID_HOME
+      mv $ANDROID_HOME/cmdline-tools/bin $ANDROID_HOME/cmdline-tools/latest/bin
+      yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+      $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-33" "build-tools;33.0.2"
+      # Set up environment variables
+      export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
